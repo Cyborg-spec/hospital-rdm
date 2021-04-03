@@ -13,10 +13,12 @@ public class HospitalMedicament {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("hospitalId")
+    @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("medicamentId")
+    @JoinColumn(name = "medicament_id")
     private Medicament medicament;
 
     @Column(name = "quantity")

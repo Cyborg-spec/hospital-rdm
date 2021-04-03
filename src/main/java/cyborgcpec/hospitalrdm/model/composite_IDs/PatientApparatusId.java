@@ -1,11 +1,11 @@
 package cyborgcpec.hospitalrdm.model.composite_IDs;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ public class PatientApparatusId implements Serializable {
     @Column(name = "patient_id")
     private long patientId;
 
-    @Column(name = "appratus_id")
+    @Column(name = "apparatus_id")
     private long apparatusId;
 
     @Override

@@ -6,7 +6,6 @@ import cyborgcpec.hospitalrdm.repository.PatientApparatusRepository;
 import cyborgcpec.hospitalrdm.service.PatientApparatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -16,7 +15,6 @@ public class PatientApparatusServiceImpl implements PatientApparatusService {
     private PatientApparatusRepository patientApparatusRepository;
 
     @Override
-    @Transactional
     public Set<PatientApparatus> findByPatient(Patient patient) {
         return patientApparatusRepository.findByPatient(patient);
     }

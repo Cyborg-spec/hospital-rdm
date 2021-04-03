@@ -3,6 +3,7 @@ package cyborgcpec.hospitalrdm.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -28,7 +29,16 @@ public class Patient {
     @Column(name = "status_id")
     private Status status;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "patient")
-    private Set<PatientApparatus> patientApparatuses;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return patientId == patient.patientId;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(patientId);
+    }
 }

@@ -2,6 +2,7 @@ package cyborgcpec.hospitalrdm.controller;
 
 import cyborgcpec.hospitalrdm.dto.ApparatusDTO;
 import cyborgcpec.hospitalrdm.dto.PatientDTO;
+import cyborgcpec.hospitalrdm.exceptions.patient.PatientNotFoundException;
 import cyborgcpec.hospitalrdm.mappers.EntityToDTOConverter;
 import cyborgcpec.hospitalrdm.model.Apparatus;
 import cyborgcpec.hospitalrdm.model.Patient;
@@ -29,17 +30,17 @@ public class PatientController {
     private PatientApparatusService patientApparatusService;
 
     @GetMapping("/patient/{id}")
-    public PatientDTO getPatientById(@PathVariable long id) throws Exception {
+    public PatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient>patient=patientService.findById(id);
         if(patient.isPresent()){
            return entityToDTOConverter.patientToPatientDTO(patient.get());
         }else {
-            throw new Exception();
+            throw new PatientNotFoundException("Patient not found");
         }
     }
 
     @GetMapping("/patient/{id}/apparatuses")
-    public Set<ApparatusDTO> getPatientApparatuses(@PathVariable long id) throws Exception {
+    public Set<ApparatusDTO> getPatientApparatuses(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient>patient=patientService.findById(id);
         if(patient.isPresent()){
             Set<PatientApparatus>patientApparatuses=patientApparatusService.findByPatient(patient.get());
@@ -49,7 +50,8 @@ public class PatientController {
             }
            return entityToDTOConverter.apparatusToApparatusDTO(apparatuses);
         }else {
-            throw new Exception();
+            throw new PatientNotFoundException("Patient not found");
         }
     }
+
 }

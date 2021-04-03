@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -20,6 +21,16 @@ public class Apparatus {
     @Column(name = "apparatus_price")
     private BigDecimal apparatusPrice;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "apparatus")
-    private Set<PatientApparatus>patientApparatuses;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Apparatus apparatus = (Apparatus) o;
+        return apparatusId == apparatus.apparatusId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(apparatusId);
+    }
 }

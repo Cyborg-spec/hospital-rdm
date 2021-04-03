@@ -13,10 +13,12 @@ public class PatientMedicament {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("patientId")
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("medicamentId")
+    @JoinColumn(name = "medicament_id")
     private Medicament medicament;
 
     @Override

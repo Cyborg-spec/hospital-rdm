@@ -5,7 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity(name = "PatientApparatus")
+@Entity
 @Table(name = "patient_apparatus")
 @Data
 public class PatientApparatus {
@@ -15,9 +15,11 @@ public class PatientApparatus {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("apparatusId")
+    @JoinColumn(name = "apparatus_id")
     private Apparatus apparatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("patientId")
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 }
