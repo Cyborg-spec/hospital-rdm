@@ -22,4 +22,9 @@ public class PatientServiceImpl implements PatientService {
     public Patient findByFirstNameAndLastName(String firstName, String lastName) {
         return patientRepository.findByFirstNameAndLastName(firstName,lastName);
     }
+
+    @Override
+    public void save(Patient patient) {
+        patientRepository.save(patient);
+    }
 }

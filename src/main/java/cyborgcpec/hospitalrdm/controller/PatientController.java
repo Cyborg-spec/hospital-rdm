@@ -1,23 +1,19 @@
 package cyborgcpec.hospitalrdm.controller;
 
-import cyborgcpec.hospitalrdm.dto.ApparatusDTO;
-import cyborgcpec.hospitalrdm.dto.RequestPatientDTO;
-import cyborgcpec.hospitalrdm.dto.ResponsePatientDTO;
-import cyborgcpec.hospitalrdm.dto.StatusDTO;
+import cyborgcpec.hospitalrdm.dto.*;
+import cyborgcpec.hospitalrdm.exceptions.doctor.DoctorNotFoundException;
 import cyborgcpec.hospitalrdm.exceptions.patient.PatientNotFoundException;
 import cyborgcpec.hospitalrdm.mappers.EntityToDTOConverter;
-import cyborgcpec.hospitalrdm.model.Apparatus;
-import cyborgcpec.hospitalrdm.model.Patient;
-import cyborgcpec.hospitalrdm.model.PatientApparatus;
+import cyborgcpec.hospitalrdm.model.*;
+import cyborgcpec.hospitalrdm.service.DoctorService;
 import cyborgcpec.hospitalrdm.service.PatientApparatusService;
 import cyborgcpec.hospitalrdm.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.parameters.P;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,6 +27,9 @@ public class PatientController {
 
     @Autowired
     private PatientApparatusService patientApparatusService;
+
+    @Autowired
+    private DoctorService doctorService;
 
     @GetMapping("/patient/{id}")
     public ResponsePatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
@@ -64,6 +63,36 @@ public class PatientController {
             return entityToDTOConverter.statusToStatusDTO(patient.getStatus());
         }else {
             throw new PatientNotFoundException("Patient not found");
+        }
+    }
+    @PostMapping("/patient/new-patient")
+    public ResponsePatientDTO newPatient(@RequestBody NewPatientDTO newPatientDTO) throws DoctorNotFoundException {
+        //TODO doctorType throws IllegalArgumentException
+        //TODO SET ROOM FOR PATIENT
+        DoctorType doctorType=DoctorType.valueOf(newPatientDTO.getIllType());
+        Set<Doctor>doctors=doctorService.findByDoctorType(doctorType);
+        if(!doctors.isEmpty()) {
+
+            Patient patient = new Patient();
+            patient.setFirstName(newPatientDTO.getFirstName());
+            patient.setLastName(newPatientDTO.getLastName());
+            patient.setStatus(Status.UNDEFINED);
+            Doctor availableDoctor = null;
+
+            for (Doctor doctor : doctors) {
+                if (doctor.getPatients().size() <= 3) {
+                    availableDoctor = doctor;
+                    break;
+                }
+            }
+
+            patient.setDoctor(Objects.requireNonNullElseGet(availableDoctor, () -> doctors.stream().findAny().get()));
+
+            patientService.save(patient);
+
+            return entityToDTOConverter.patientToPatientDTO(patient);
+        }else {
+            throw new DoctorNotFoundException("Doctor for this patient not found");
         }
     }
 }

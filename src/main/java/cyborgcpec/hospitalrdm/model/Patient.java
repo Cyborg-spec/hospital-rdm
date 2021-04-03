@@ -1,6 +1,9 @@
 package cyborgcpec.hospitalrdm.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -10,8 +13,13 @@ import java.util.Set;
 @Entity
 @Table(name = "patient")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Patient {
     @Id
+    @GeneratedValue(generator = "patient_id_gen")
+    @SequenceGenerator(name = "patient_id_gen",sequenceName = "patient_id_seq",allocationSize = 1)
     @Column(name = "patient_id")
     private long patientId;
 

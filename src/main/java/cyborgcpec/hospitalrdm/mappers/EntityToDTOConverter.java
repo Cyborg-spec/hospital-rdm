@@ -26,7 +26,8 @@ public class EntityToDTOConverter {
                 .builder()
                 .firstName(doctor.getFirstName())
                 .lastName(doctor.getLastName())
-                .age(doctor.getAge()).build();
+                .age(doctor.getAge())
+                .doctorType(doctor.getDoctorType()).build();
     }
     public ApparatusDTO apparatusToApparatusDTO(Apparatus apparatus){
        return ApparatusDTO.builder()
@@ -44,4 +45,5 @@ public class EntityToDTOConverter {
         return StatusDTO.builder()
                 .status(status.name()).build();
     }
+
 }
