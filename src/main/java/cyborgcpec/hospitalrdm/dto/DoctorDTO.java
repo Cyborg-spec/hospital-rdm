@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DoctorDTO {
+    private String firstName;
+    private String lastName;
+    private int age;
 }
