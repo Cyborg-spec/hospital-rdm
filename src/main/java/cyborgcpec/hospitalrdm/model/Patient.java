@@ -3,6 +3,7 @@ package cyborgcpec.hospitalrdm.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 
 @Entity
@@ -23,6 +24,11 @@ public class Patient {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status_id")
     private Status status;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "patient")
+    private Set<PatientApparatus> patientApparatuses;
+
 }

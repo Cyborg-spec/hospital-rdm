@@ -5,10 +5,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "PatientApparatus")
 @Table(name = "patient_apparatus")
 @Data
 public class PatientApparatus {
+
     @EmbeddedId
     private PatientApparatusId patientApparatusId;
 
