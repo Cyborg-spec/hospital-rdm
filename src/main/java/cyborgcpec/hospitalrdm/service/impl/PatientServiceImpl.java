@@ -17,4 +17,9 @@ public class PatientServiceImpl implements PatientService {
     public Optional<Patient> findById(long id) {
         return patientRepository.findById(id);
     }
+
+    @Override
+    public Patient findByFirstNameAndLastName(String firstName, String lastName) {
+        return patientRepository.findByFirstNameAndLastName(firstName,lastName);
+    }
 }

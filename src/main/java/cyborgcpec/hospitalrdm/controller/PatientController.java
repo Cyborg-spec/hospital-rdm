@@ -1,7 +1,9 @@
 package cyborgcpec.hospitalrdm.controller;
 
 import cyborgcpec.hospitalrdm.dto.ApparatusDTO;
-import cyborgcpec.hospitalrdm.dto.PatientDTO;
+import cyborgcpec.hospitalrdm.dto.RequestPatientDTO;
+import cyborgcpec.hospitalrdm.dto.ResponsePatientDTO;
+import cyborgcpec.hospitalrdm.dto.StatusDTO;
 import cyborgcpec.hospitalrdm.exceptions.patient.PatientNotFoundException;
 import cyborgcpec.hospitalrdm.mappers.EntityToDTOConverter;
 import cyborgcpec.hospitalrdm.model.Apparatus;
@@ -12,6 +14,7 @@ import cyborgcpec.hospitalrdm.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashSet;
@@ -30,7 +33,7 @@ public class PatientController {
     private PatientApparatusService patientApparatusService;
 
     @GetMapping("/patient/{id}")
-    public PatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
+    public ResponsePatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient>patient=patientService.findById(id);
         if(patient.isPresent()){
            return entityToDTOConverter.patientToPatientDTO(patient.get());
@@ -49,6 +52,16 @@ public class PatientController {
                 apparatuses.add(patientApparatus.getApparatus());
             }
            return entityToDTOConverter.apparatusToApparatusDTO(apparatuses);
+        }else {
+            throw new PatientNotFoundException("Patient not found");
+        }
+    }
+
+    @GetMapping("/patient/status")
+    public StatusDTO patientStatus(@RequestBody RequestPatientDTO requestPatientDTO) throws PatientNotFoundException {
+        Patient patient=patientService.findByFirstNameAndLastName(requestPatientDTO.getFirstName(),requestPatientDTO.getLastName());
+        if(patient!=null){
+            return entityToDTOConverter.statusToStatusDTO(patient.getStatus());
         }else {
             throw new PatientNotFoundException("Patient not found");
         }

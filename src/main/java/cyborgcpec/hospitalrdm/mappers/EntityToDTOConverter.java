@@ -1,12 +1,11 @@
 package cyborgcpec.hospitalrdm.mappers;
 
 
-import cyborgcpec.hospitalrdm.dto.ApparatusDTO;
-import cyborgcpec.hospitalrdm.dto.DoctorDTO;
-import cyborgcpec.hospitalrdm.dto.PatientDTO;
+import cyborgcpec.hospitalrdm.dto.*;
 import cyborgcpec.hospitalrdm.model.Apparatus;
 import cyborgcpec.hospitalrdm.model.Doctor;
 import cyborgcpec.hospitalrdm.model.Patient;
+import cyborgcpec.hospitalrdm.model.Status;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
@@ -14,8 +13,8 @@ import java.util.Set;
 
 @Component
 public class EntityToDTOConverter {
-    public PatientDTO patientToPatientDTO(Patient patient){
-        return PatientDTO.builder()
+    public ResponsePatientDTO patientToPatientDTO(Patient patient){
+        return ResponsePatientDTO.builder()
                 .firstName(patient.getFirstName())
                 .lastName(patient.getLastName())
                 .status(patient.getStatus().name())
@@ -40,5 +39,9 @@ public class EntityToDTOConverter {
             result.add(apparatusToApparatusDTO(apparatus));
         }
         return result;
+    }
+    public StatusDTO statusToStatusDTO(Status status){
+        return StatusDTO.builder()
+                .status(status.name()).build();
     }
 }
