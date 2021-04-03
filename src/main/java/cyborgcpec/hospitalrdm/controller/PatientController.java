@@ -53,5 +53,4 @@ public class PatientController {
             throw new PatientNotFoundException("Patient not found");
         }
     }
-
 }
