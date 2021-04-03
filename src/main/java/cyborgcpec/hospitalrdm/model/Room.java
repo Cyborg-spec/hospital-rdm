@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Data
 public class Room {
     @Id
-    @GeneratedValue
     @Column(name = "room_id")
     private long roomId;
 

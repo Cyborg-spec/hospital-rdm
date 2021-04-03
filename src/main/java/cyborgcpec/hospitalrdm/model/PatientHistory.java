@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Data
 public class PatientHistory {
     @Id
-    @GeneratedValue
     @Column(name = "patient_history_id")
     private long patientHistoryId;
 

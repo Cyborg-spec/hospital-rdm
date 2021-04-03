@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Data
 public class PatientBill {
     @Id
-    @GeneratedValue
     @Column(name = "bill_id")
     private long billId;
 

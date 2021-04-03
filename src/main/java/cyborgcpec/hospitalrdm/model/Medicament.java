@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @Data
 public class Medicament {
     @Id
-    @GeneratedValue
     @Column(name = "medicament_id")
     private long medicamentId;
 

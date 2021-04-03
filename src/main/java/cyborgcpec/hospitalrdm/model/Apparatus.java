@@ -7,7 +7,6 @@ import java.math.BigDecimal;
 @Table(name = "apparatus")
 public class Apparatus {
     @Id
-    @GeneratedValue
     @Column(name = "apparatus_id")
     private long apparatusId;
 
