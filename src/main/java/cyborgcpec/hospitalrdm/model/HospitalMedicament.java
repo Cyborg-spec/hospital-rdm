@@ -1,24 +1,23 @@
 package cyborgcpec.hospitalrdm.model;
 
-
-import cyborgcpec.hospitalrdm.model.composite_IDs.HospitalApparatusId;
-import lombok.Data;
+import cyborgcpec.hospitalrdm.model.composite_IDs.HospitalMedicamentId;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "hospital_apparatus")
-@Data
-public class HospitalApparatus {
+@Table(name = "hospital_medicament")
+public class HospitalMedicament {
     @EmbeddedId
-    private HospitalApparatusId hospitalApparatusId;
+    private HospitalMedicamentId hospitalMedicamentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("hospitalId")
     private Hospital hospital;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Apparatus apparatus;
+    @MapsId("medicamentId")
+    private Medicament medicament;
 
     @Column(name = "quantity")
     private int quantity;
@@ -27,12 +26,12 @@ public class HospitalApparatus {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HospitalApparatus that = (HospitalApparatus) o;
-        return Objects.equals(hospital, that.hospital) && Objects.equals(apparatus, that.apparatus);
+        HospitalMedicament that = (HospitalMedicament) o;
+        return Objects.equals(hospital, that.hospital) && Objects.equals(medicament, that.medicament);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(hospital, apparatus);
+        return Objects.hash(hospital, medicament);
     }
 }
