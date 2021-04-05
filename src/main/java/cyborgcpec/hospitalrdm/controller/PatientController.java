@@ -106,7 +106,7 @@ public class PatientController {
         }
     }
 
-    @PostMapping("/patient/problem")
+    @PostMapping("/patient/new-problems")
     public ResponseEntity<Object> patientNewProblem(@RequestBody PatientNewProblemDTO patientNewProblemDTO) throws ProblemTypeNotFoundException, PatientNotFoundException {
         Patient patient = patientService.findByFirstNameAndLastName(patientNewProblemDTO.getFirstName(), patientNewProblemDTO.getLastName());
         if(patient!=null) {
