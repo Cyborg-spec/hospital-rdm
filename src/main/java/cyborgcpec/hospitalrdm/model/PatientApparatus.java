@@ -1,6 +1,6 @@
 package cyborgcpec.hospitalrdm.model;
 
-import cyborgcpec.hospitalrdm.model.composite_IDs.PatientApparatusId;
+import cyborgcpec.hospitalrdm.model.composite_keys.PatientApparatusId;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Table(name = "patient_apparatus")
 @Data
 public class PatientApparatus {
-
     @EmbeddedId
     private PatientApparatusId patientApparatusId;
 

@@ -33,9 +33,16 @@ public class Patient {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated
     @Column(name = "status_id")
     private Status status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "patient")
+    private Set<PatientProblem>patientProblems;
 
     @Override
     public boolean equals(Object o) {

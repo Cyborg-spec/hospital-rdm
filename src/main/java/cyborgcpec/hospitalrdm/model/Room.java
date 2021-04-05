@@ -4,6 +4,7 @@ package cyborgcpec.hospitalrdm.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "room")
@@ -14,8 +15,14 @@ public class Room {
     private long roomId;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Patient patient;
+    @Enumerated
+    @Column(name = "room_type_id")
+    private RoomType roomType;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "room")
+    private Set<Patient> patient;
+
 }

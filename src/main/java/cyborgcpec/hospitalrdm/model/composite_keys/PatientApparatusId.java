@@ -1,4 +1,4 @@
-package cyborgcpec.hospitalrdm.model.composite_IDs;
+package cyborgcpec.hospitalrdm.model.composite_keys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,25 +11,25 @@ import java.util.Objects;
 
 @Embeddable
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class HospitalApparatusId implements Serializable {
+@AllArgsConstructor
+public class PatientApparatusId implements Serializable {
+    @Column(name = "patient_id")
+    private long patientId;
+
     @Column(name = "apparatus_id")
     private long apparatusId;
-
-    @Column(name = "hospital_id")
-    private long hospitalId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HospitalApparatusId that = (HospitalApparatusId) o;
-        return apparatusId == that.apparatusId && hospitalId == that.hospitalId;
+        PatientApparatusId that = (PatientApparatusId) o;
+        return patientId == that.patientId && apparatusId == that.apparatusId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(apparatusId, hospitalId);
+        return Objects.hash(patientId, apparatusId);
     }
 }

@@ -1,4 +1,4 @@
-package cyborgcpec.hospitalrdm.model.composite_IDs;
+package cyborgcpec.hospitalrdm.model.composite_keys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,8 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Objects;
 

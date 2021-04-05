@@ -1,12 +1,14 @@
 package cyborgcpec.hospitalrdm.model;
 
-import cyborgcpec.hospitalrdm.model.composite_IDs.HospitalMedicamentId;
+import cyborgcpec.hospitalrdm.model.composite_keys.HospitalMedicamentId;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "hospital_medicament")
+@Data
 public class HospitalMedicament {
     @EmbeddedId
     private HospitalMedicamentId hospitalMedicamentId;

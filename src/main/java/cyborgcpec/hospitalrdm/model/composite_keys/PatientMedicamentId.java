@@ -1,4 +1,4 @@
-package cyborgcpec.hospitalrdm.model.composite_IDs;
+package cyborgcpec.hospitalrdm.model.composite_keys;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

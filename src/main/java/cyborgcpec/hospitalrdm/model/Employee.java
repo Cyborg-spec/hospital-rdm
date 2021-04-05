@@ -1,10 +1,13 @@
 package cyborgcpec.hospitalrdm.model;
 
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "employee")
+@Data
 public class Employee {
     @Id
     @Column(name = "employee_id")

@@ -1,7 +1,7 @@
 package cyborgcpec.hospitalrdm.model;
 
 
-import cyborgcpec.hospitalrdm.model.composite_IDs.HospitalApparatusId;
+import cyborgcpec.hospitalrdm.model.composite_keys.HospitalApparatusId;
 import lombok.Data;
 
 import javax.persistence.*;

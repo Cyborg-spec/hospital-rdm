@@ -30,6 +30,9 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor")
     private Set<Patient> patients;
 
+    @OneToOne(fetch = FetchType.LAZY,mappedBy = "doctor")
+    private Room room;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

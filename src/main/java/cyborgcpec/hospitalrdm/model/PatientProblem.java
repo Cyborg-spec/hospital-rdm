@@ -1,17 +1,20 @@
 package cyborgcpec.hospitalrdm.model;
 
-import cyborgcpec.hospitalrdm.model.composite_keys.PatientMedicamentId;
+
+import cyborgcpec.hospitalrdm.model.composite_keys.PatientProblemId;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "patient_medicament")
+@Table(name = "patient_problem")
 @Data
-public class PatientMedicament {
+public class PatientProblem {
     @EmbeddedId
-    private PatientMedicamentId patientMedicamentId;
+    private PatientProblemId patientProblemId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("patientId")
@@ -19,20 +22,20 @@ public class PatientMedicament {
     private Patient patient;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("medicamentId")
-    @JoinColumn(name = "medicament_id")
-    private Medicament medicament;
+    @MapsId("problemId")
+    @JoinColumn(name = "problem_id")
+    private Problem problem;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PatientMedicament that = (PatientMedicament) o;
-        return Objects.equals(patient, that.patient) && Objects.equals(medicament, that.medicament);
+        PatientProblem that = (PatientProblem) o;
+        return patient.equals(that.patient) && problem.equals(that.problem);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(patient, medicament);
+        return Objects.hash(patient, problem);
     }
 }

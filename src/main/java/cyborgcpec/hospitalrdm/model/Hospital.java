@@ -4,6 +4,7 @@ package cyborgcpec.hospitalrdm.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "hospital")
@@ -15,4 +16,7 @@ public class Hospital {
 
     @Column(name = "hospital_name")
     private String hospitalName;
+
+    @OneToMany
+    private Set<Apparatus> apparatuses;
 }
