@@ -107,33 +107,37 @@ public class PatientController {
     }
 
     @PostMapping("/patient/problem")
-    public ResponseEntity<?> patientNewProblem(@RequestBody PatientNewProblemDTO patientNewProblemDTO) throws ProblemTypeNotFoundException {
+    public ResponseEntity<Object> patientNewProblem(@RequestBody PatientNewProblemDTO patientNewProblemDTO) throws ProblemTypeNotFoundException, PatientNotFoundException {
         Patient patient = patientService.findByFirstNameAndLastName(patientNewProblemDTO.getFirstName(), patientNewProblemDTO.getLastName());
-        Set<Problem> problems = new HashSet<>();
-        for (ProblemDTO problemDTO : patientNewProblemDTO.getProblems()) {
-            Problem problem = problemService.findByProblemName(problemDTO.getProblemName());
-            if (problem != null) {
-                problems.add(problem);
+        if(patient!=null) {
+            Set<Problem> problems = new HashSet<>();
+            for (ProblemDTO problemDTO : patientNewProblemDTO.getProblems()) {
+                Problem problem = problemService.findByProblemName(problemDTO.getProblemName());
+                if (problem != null) {
+                    problems.add(problem);
+                }
             }
-        }
-        if (!problems.isEmpty()) {
-            long patientId=patient.getPatientId();
+            if (!problems.isEmpty()) {
+                long patientId = patient.getPatientId();
 
-            for (Problem problem : problems) {
-                PatientProblemId patientProblemId=new PatientProblemId();
-                patientProblemId.setPatientId(patientId);
-                patientProblemId.setProblemId(problem.getProblemId());
+                for (Problem problem : problems) {
+                    PatientProblemId patientProblemId = new PatientProblemId();
+                    patientProblemId.setPatientId(patientId);
+                    patientProblemId.setProblemId(problem.getProblemId());
 
-                PatientProblem patientProblem = new PatientProblem();
-                patientProblem.setProblem(problem);
-                patientProblem.setPatient(patient);
-                patientProblem.setPatientProblemId(patientProblemId);
+                    PatientProblem patientProblem = new PatientProblem();
+                    patientProblem.setProblem(problem);
+                    patientProblem.setPatient(patient);
+                    patientProblem.setPatientProblemId(patientProblemId);
 
-                patientProblemService.save(patientProblem);
+                    patientProblemService.save(patientProblem);
+                }
+                return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                throw new ProblemTypeNotFoundException("This problem types not found");
             }
-            return new ResponseEntity<>(HttpStatus.OK);
         }else {
-          throw new ProblemTypeNotFoundException("This problem types not found");
+            throw new PatientNotFoundException("Patient not found");
         }
     }
     @GetMapping("/patient/{id}/problems")
