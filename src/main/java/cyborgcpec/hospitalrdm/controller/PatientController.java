@@ -151,12 +151,12 @@ public class PatientController {
         }
     }
     @PutMapping("/patient/status-update")
-    public ResponseEntity<Object> updatePatient(@RequestBody PatientStatusUpdateRequestDTO patientStatusUpdateRequestDTO) throws PatientNotFoundException {
+    public String updatePatient(@RequestBody PatientStatusUpdateRequestDTO patientStatusUpdateRequestDTO) throws PatientNotFoundException {
         Optional<Patient>patient=patientService.findById(patientStatusUpdateRequestDTO.getId());
         if(patient.isPresent()){
             patient.get().setStatus(Status.valueOf(patientStatusUpdateRequestDTO.getStatus()));
             patientService.save(patient.get());
-            return new ResponseEntity<>(HttpStatus.OK);
+            return "status updated";
         }else {
             throw new PatientNotFoundException("Patient not found");
         }
