@@ -3,14 +3,17 @@ package cyborgcpec.hospitalrdm.controller;
 import cyborgcpec.hospitalrdm.dto.*;
 import cyborgcpec.hospitalrdm.exceptions.Problem.ProblemTypeNotFoundException;
 import cyborgcpec.hospitalrdm.exceptions.doctor.DoctorNotFoundException;
+import cyborgcpec.hospitalrdm.exceptions.medicament.MedicamentNotFoundException;
 import cyborgcpec.hospitalrdm.exceptions.patient.PatientNotFoundException;
 import cyborgcpec.hospitalrdm.mappers.EntityToDTOConverter;
 import cyborgcpec.hospitalrdm.model.*;
+import cyborgcpec.hospitalrdm.model.composite_keys.PatientMedicamentId;
 import cyborgcpec.hospitalrdm.model.composite_keys.PatientProblemId;
 import cyborgcpec.hospitalrdm.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -41,6 +44,9 @@ public class PatientController {
     @Autowired
     private MedicamentService medicamentService;
 
+    @Autowired
+    private PatientMedicamentService patientMedicamentService;
+
     @GetMapping("/patient/{id}")
     public ResponsePatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient> patient = patientService.findById(id);
@@ -68,6 +74,7 @@ public class PatientController {
 
     @GetMapping("/patient/status")
     public StatusDTO patientStatus(@RequestBody RequestPatientDTO requestPatientDTO) throws PatientNotFoundException {
+        //Todo there are can be several patients with this name and lastname
         Patient patient = patientService.findByFirstNameAndLastName(requestPatientDTO.getFirstName(), requestPatientDTO.getLastName());
         if (patient != null) {
             return entityToDTOConverter.statusToStatusDTO(patient.getStatus());
@@ -111,8 +118,9 @@ public class PatientController {
 
     @PostMapping("/patient/new-problems")
     public ResponseEntity<Object> patientNewProblem(@RequestBody PatientNewProblemDTO patientNewProblemDTO) throws ProblemTypeNotFoundException, PatientNotFoundException {
+        //Todo there are can be several patients with this name and lastname
         Patient patient = patientService.findByFirstNameAndLastName(patientNewProblemDTO.getFirstName(), patientNewProblemDTO.getLastName());
-        if(patient!=null) {
+        if (patient != null) {
             Set<Problem> problems = new HashSet<>();
             for (ProblemDTO problemDTO : patientNewProblemDTO.getProblems()) {
                 Problem problem = problemService.findByProblemName(problemDTO.getProblemName());
@@ -139,47 +147,67 @@ public class PatientController {
             } else {
                 throw new ProblemTypeNotFoundException("This problem types not found");
             }
-        }else {
+        } else {
             throw new PatientNotFoundException("Patient not found");
         }
     }
+
     @GetMapping("/patient/{id}/problems")
     public Set<ProblemDTO> patientProblems(@PathVariable long id) throws PatientNotFoundException {
-        Optional<Patient>patient=patientService.findById(id);
-        if(patient.isPresent()){
-            Set<PatientProblem>patientProblems=patient.get().getPatientProblems();
+        Optional<Patient> patient = patientService.findById(id);
+        if (patient.isPresent()) {
+            Set<PatientProblem> patientProblems = patient.get().getPatientProblems();
             return entityToDTOConverter.patientProblemToProblemDTO(patientProblems);
-        }else {
+        } else {
             throw new PatientNotFoundException("Patient not found");
         }
     }
+
     @PutMapping("/patient/status-update")
     public String updatePatientStatus(@RequestBody PatientStatusUpdateRequestDTO patientStatusUpdateRequestDTO) throws PatientNotFoundException {
-        Optional<Patient>patient=patientService.findById(patientStatusUpdateRequestDTO.getId());
-        if(patient.isPresent()){
-            patient.get().setStatus(Status.valueOf(patientStatusUpdateRequestDTO.getStatus()));
-            patientService.save(patient.get());
+        //Todo there are can be several patients with this name and lastname
+        Patient patient = patientService.findByFirstNameAndLastName(patientStatusUpdateRequestDTO.getFirstName(),patientStatusUpdateRequestDTO.getLastName());
+        if (patient!=null) {
+            patient.setStatus(Status.valueOf(patientStatusUpdateRequestDTO.getStatus()));
+            patientService.save(patient);
             return "status updated";
-        }else {
+        } else {
             throw new PatientNotFoundException("Patient not found");
         }
     }
-    @PostMapping("/patient/used-medicament/add")
-    public String updatePatientUsedMedicament(@RequestBody PatientUsedMedicamentUpdateRequestDTO patientUsedMedicamentUpdateRequestDTO){
-        Patient patient=patientService.
-                findByFirstNameAndLastName(patientUsedMedicamentUpdateRequestDTO.getFirstName(),patientUsedMedicamentUpdateRequestDTO.getLastName());
-        if(patient!=null) {
-            Set<Medicament>patientUsedMedicament=new HashSet<>();
 
-            for(MedicamentDTO usedMedicament:patientUsedMedicamentUpdateRequestDTO.getUsedMedicament()){
-                Medicament medicament=medicamentService.findByMedicamentName(usedMedicament.getMedicamentName());
-                if(medicament!=null){
-                    patientUsedMedicament.add(medicament);
+    @PostMapping("/patient/used-medicament/add")
+    public String updatePatientUsedMedicament(@RequestBody PatientUsedMedicamentUpdateRequestDTO patientUsedMedicamentUpdateRequestDTO) throws MedicamentNotFoundException, PatientNotFoundException {
+        //Todo there are can be several patients with this name and lastname
+        Patient patient = patientService.
+                findByFirstNameAndLastName(patientUsedMedicamentUpdateRequestDTO.getFirstName(), patientUsedMedicamentUpdateRequestDTO.getLastName());
+        if (patient != null) {
+            Set<Medicament> patientUsedMedicaments = new HashSet<>();
+            for (MedicamentDTO usedMedicament : patientUsedMedicamentUpdateRequestDTO.getUsedMedicament()) {
+                Medicament medicament = medicamentService.findByMedicamentName(usedMedicament.getMedicamentName());
+                if (medicament != null) {
+                    patientUsedMedicaments.add(medicament);
                 }
             }
-            if(!patientUsedMedicament.isEmpty()){
-
+            if (!patientUsedMedicaments.isEmpty()) {
+                long patientId = patient.getPatientId();
+                for (Medicament medicament : patientUsedMedicaments) {
+                    PatientMedicamentId patientMedicamentId = new PatientMedicamentId();
+                    patientMedicamentId.setPatientId(patientId);
+                    patientMedicamentId.setMedicamentId(medicament.getMedicamentId());
+                    PatientMedicament patientMedicament = new PatientMedicament();
+                    patientMedicament.setPatientMedicamentId(patientMedicamentId);
+                    patientMedicament.setMedicament(medicament);
+                    patientMedicament.setPatient(patient);
+                    patientMedicament.setUsedQuantity(patientUsedMedicamentUpdateRequestDTO.getQuantity());
+                    patientMedicamentService.save(patientMedicament);
+                }
+            }else {
+                throw new MedicamentNotFoundException("Medicament(s) with this name(s) not found");
             }
+        }else {
+            throw new PatientNotFoundException("Patient not found");
         }
+        return "patient used medicaments saved";
     }
 }
