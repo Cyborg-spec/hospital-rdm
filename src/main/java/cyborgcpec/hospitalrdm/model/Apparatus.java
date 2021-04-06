@@ -21,6 +21,9 @@ public class Apparatus {
     @Column(name = "apparatus_price")
     private BigDecimal apparatusPrice;
 
+    @Column(name = "apparatus_price_per_hour")
+    private BigDecimal apparatusPricePerHour;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

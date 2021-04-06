@@ -38,6 +38,9 @@ public class PatientController {
     @Autowired
     private PatientProblemService patientProblemService;
 
+    @Autowired
+    private MedicamentService medicamentService;
+
     @GetMapping("/patient/{id}")
     public ResponsePatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient> patient = patientService.findById(id);
@@ -151,7 +154,7 @@ public class PatientController {
         }
     }
     @PutMapping("/patient/status-update")
-    public String updatePatient(@RequestBody PatientStatusUpdateRequestDTO patientStatusUpdateRequestDTO) throws PatientNotFoundException {
+    public String updatePatientStatus(@RequestBody PatientStatusUpdateRequestDTO patientStatusUpdateRequestDTO) throws PatientNotFoundException {
         Optional<Patient>patient=patientService.findById(patientStatusUpdateRequestDTO.getId());
         if(patient.isPresent()){
             patient.get().setStatus(Status.valueOf(patientStatusUpdateRequestDTO.getStatus()));
@@ -159,6 +162,24 @@ public class PatientController {
             return "status updated";
         }else {
             throw new PatientNotFoundException("Patient not found");
+        }
+    }
+    @PostMapping("/patient/used-medicament/add")
+    public String updatePatientUsedMedicament(@RequestBody PatientUsedMedicamentUpdateRequestDTO patientUsedMedicamentUpdateRequestDTO){
+        Patient patient=patientService.
+                findByFirstNameAndLastName(patientUsedMedicamentUpdateRequestDTO.getFirstName(),patientUsedMedicamentUpdateRequestDTO.getLastName());
+        if(patient!=null) {
+            Set<Medicament>patientUsedMedicament=new HashSet<>();
+
+            for(MedicamentDTO usedMedicament:patientUsedMedicamentUpdateRequestDTO.getUsedMedicament()){
+                Medicament medicament=medicamentService.findByMedicamentName(usedMedicament.getMedicamentName());
+                if(medicament!=null){
+                    patientUsedMedicament.add(medicament);
+                }
+            }
+            if(!patientUsedMedicament.isEmpty()){
+
+            }
         }
     }
 }

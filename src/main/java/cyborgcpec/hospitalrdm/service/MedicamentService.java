@@ -1,5 +1,7 @@
 package cyborgcpec.hospitalrdm.service;
 
-public interface MedicamentService
-{
+import cyborgcpec.hospitalrdm.model.Medicament;
+
+public interface MedicamentService {
+    Medicament findByMedicamentName(String medicamentName);
 }

@@ -23,6 +23,9 @@ public class PatientMedicament {
     @JoinColumn(name = "medicament_id")
     private Medicament medicament;
 
+    @Column(name = "used_quantity")
+    private int usedQuantity;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
