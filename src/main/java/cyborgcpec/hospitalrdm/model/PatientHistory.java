@@ -13,9 +13,11 @@ public class PatientHistory {
     @Column(name = "patient_history_id")
     private long patientHistoryId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    @Column(name = "patient_first_name")
+    private String firstName;
+
+    @Column(name = "patient_last_name")
+    private String lastName;
 
     @Column(name = "registered_at")
     private LocalDate registeredAt;

@@ -1,5 +1,6 @@
 package cyborgcpec.hospitalrdm.service.impl;
 
+import cyborgcpec.hospitalrdm.model.Medicament;
 import cyborgcpec.hospitalrdm.model.Patient;
 import cyborgcpec.hospitalrdm.repository.PatientRepository;
 import cyborgcpec.hospitalrdm.service.PatientService;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -37,4 +39,5 @@ public class PatientServiceImpl implements PatientService {
     public void delete(Patient patient) {
         patientRepository.delete(patient);
     }
+
 }

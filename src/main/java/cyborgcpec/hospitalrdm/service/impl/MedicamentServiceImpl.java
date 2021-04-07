@@ -21,7 +21,14 @@ public class MedicamentServiceImpl implements MedicamentService {
     }
 
     @Override
+    @Transactional
     public Set<Medicament> findByMedicamentNames(Set<String> medicamentNames) {
         return medicamentRepository.findByMedicamentNames(medicamentNames);
+    }
+
+    @Override
+    @Transactional
+    public Set<Medicament> findByPatientId(long patientId) {
+        return medicamentRepository.findByPatientId(patientId);
     }
 }

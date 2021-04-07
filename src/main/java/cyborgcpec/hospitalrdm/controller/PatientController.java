@@ -13,7 +13,6 @@ import cyborgcpec.hospitalrdm.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -46,7 +45,7 @@ public class PatientController {
     private PatientMedicamentService patientMedicamentService;
 
     @Autowired
-    private PatientBillService patientBillService;
+    private PatientBillHistoryService patientBillHistoryService;
 
     @GetMapping("/patient/{id}")
     public ResponsePatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
@@ -200,6 +199,26 @@ public class PatientController {
             throw new PatientNotFoundException("Patient not found");
         }
         return "patient used medicaments saved";
+    }
+    @DeleteMapping("/patient/{id}/patient-releasing")
+    public String patientReleasing(@PathVariable long id) throws PatientNotFoundException {
+        Optional<Patient>patient=patientService.findById(id);
+        if(patient.isPresent()){
+           long billPrice=0;
+           Set<Medicament>medicaments=medicamentService.findByPatientId(id);
+           if(!medicaments.isEmpty()) {
+               billPrice = medicaments.stream().mapToLong(Medicament::getMedicamentPrice).sum();
+           }
+           PatientBillHistory patientBillHistory=new PatientBillHistory();
+           patientBillHistory.setFirstName(patient.get().getFirstName());
+           patientBillHistory.setLastName(patient.get().getLastName());
+           patientBillHistory.setBillPrice(billPrice);
+           patientBillHistoryService.save(patientBillHistory);
+           patientService.delete(patient.get());
+           return "Patient deleted successfully";
+        }else {
+            throw new PatientNotFoundException("Patient not found");
+        }
     }
 }
 
