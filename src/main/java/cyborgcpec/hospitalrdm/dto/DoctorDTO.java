@@ -14,5 +14,6 @@ public class DoctorDTO {
     private String firstName;
     private String lastName;
     private int age;
+    private String hospitalName;
     private DoctorType doctorType;
 }

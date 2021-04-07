@@ -7,4 +7,5 @@ import java.util.Set;
 
 public interface DoctorService {
     Set<Doctor> findByDoctorType(DoctorType type);
+    void save(Doctor doctor);
 }

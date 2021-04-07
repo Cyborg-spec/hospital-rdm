@@ -22,4 +22,9 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalRepository.findById(id);
     }
 
+    @Override
+    public Hospital findByName(String name) {
+        return hospitalRepository.findByHospitalName(name);
+    }
+
 }

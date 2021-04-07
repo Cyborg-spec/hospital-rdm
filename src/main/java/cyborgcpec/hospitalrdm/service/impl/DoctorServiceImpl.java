@@ -20,4 +20,10 @@ public class DoctorServiceImpl implements DoctorService {
     public Set<Doctor> findByDoctorType(DoctorType type) {
         return doctorRepository.findByDoctorType(type);
     }
+
+    @Override
+    @Transactional
+    public void save(Doctor doctor) {
+        doctorRepository.save(doctor);
+    }
 }

@@ -1,5 +1,6 @@
 package cyborgcpec.hospitalrdm.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,9 +10,12 @@ import java.util.Set;
 @Entity
 @Table(name = "doctor")
 @Data
+@Builder
 public class Doctor {
     @Id
     @Column(name = "doctor_id")
+    @GeneratedValue(generator = "doctor_id_gen")
+    @SequenceGenerator(name = "doctor_id_gen",sequenceName = "doctor_id_seq",allocationSize = 1)
     private long doctorId;
 
     @Column(name = "first_name")
@@ -23,12 +27,18 @@ public class Doctor {
     @Column(name = "age")
     private int age;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
+
     @Enumerated
     @Column(name = "doctor_type_id")
     private DoctorType doctorType;
 
     @OneToMany(mappedBy = "doctor")
     private Set<Patient> patients;
+
+
 
     @OneToOne(fetch = FetchType.LAZY,mappedBy = "doctor")
     private Room room;
