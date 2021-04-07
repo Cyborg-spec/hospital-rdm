@@ -4,6 +4,7 @@ import cyborgcpec.hospitalrdm.model.composite_keys.PatientApparatusId;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "patient_apparatus")
@@ -21,4 +22,10 @@ public class PatientApparatus {
     @MapsId("patientId")
     @JoinColumn(name = "patient_id")
     private Patient patient;
+
+    @Column(name = "started_using")
+    private LocalDateTime startedUsing;
+
+    @Column(name = "stopped_using")
+    private LocalDateTime stoppedUsing;
 }

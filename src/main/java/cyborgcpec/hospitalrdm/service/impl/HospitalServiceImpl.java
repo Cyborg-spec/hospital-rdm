@@ -6,6 +6,7 @@ import cyborgcpec.hospitalrdm.repository.HospitalRepository;
 import cyborgcpec.hospitalrdm.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.Set;
@@ -16,6 +17,7 @@ public class HospitalServiceImpl implements HospitalService {
     private HospitalRepository hospitalRepository;
 
     @Override
+    @Transactional
     public Optional<Hospital> findById(long id) {
         return hospitalRepository.findById(id);
     }

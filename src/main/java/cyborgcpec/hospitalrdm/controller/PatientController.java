@@ -16,10 +16,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class PatientController {
@@ -46,6 +44,9 @@ public class PatientController {
 
     @Autowired
     private PatientMedicamentService patientMedicamentService;
+
+    @Autowired
+    private PatientBillService patientBillService;
 
     @GetMapping("/patient/{id}")
     public ResponsePatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
@@ -121,13 +122,8 @@ public class PatientController {
         //Todo there are can be several patients with this name and lastname
         Patient patient = patientService.findByFirstNameAndLastName(patientNewProblemDTO.getFirstName(), patientNewProblemDTO.getLastName());
         if (patient != null) {
-            Set<Problem> problems = new HashSet<>();
-            for (ProblemDTO problemDTO : patientNewProblemDTO.getProblems()) {
-                Problem problem = problemService.findByProblemName(problemDTO.getProblemName());
-                if (problem != null) {
-                    problems.add(problem);
-                }
-            }
+            Set<String> problemNames = patientNewProblemDTO.getProblems().stream().map(ProblemDTO::getProblemName).collect(Collectors.toSet());
+            Set<Problem>problems=problemService.findByProblemNames(problemNames);
             if (!problems.isEmpty()) {
                 long patientId = patient.getPatientId();
 
@@ -145,7 +141,7 @@ public class PatientController {
                 }
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
-                throw new ProblemTypeNotFoundException("This problem types not found");
+                throw new ProblemTypeNotFoundException("This problem type(s) not found");
             }
         } else {
             throw new PatientNotFoundException("Patient not found");
@@ -182,16 +178,11 @@ public class PatientController {
         Patient patient = patientService.
                 findByFirstNameAndLastName(patientUsedMedicamentUpdateRequestDTO.getFirstName(), patientUsedMedicamentUpdateRequestDTO.getLastName());
         if (patient != null) {
-            Set<Medicament> patientUsedMedicaments = new HashSet<>();
-            for (MedicamentDTO usedMedicament : patientUsedMedicamentUpdateRequestDTO.getUsedMedicament()) {
-                Medicament medicament = medicamentService.findByMedicamentName(usedMedicament.getMedicamentName());
-                if (medicament != null) {
-                    patientUsedMedicaments.add(medicament);
-                }
-            }
-            if (!patientUsedMedicaments.isEmpty()) {
+            Set<String> medicamentNames = patientUsedMedicamentUpdateRequestDTO.getUsedMedicament().stream().map(MedicamentDTO::getMedicamentName).collect(Collectors.toSet());
+            Set<Medicament>medicaments=medicamentService.findByMedicamentNames(medicamentNames);
+            if (!medicaments.isEmpty()) {
                 long patientId = patient.getPatientId();
-                for (Medicament medicament : patientUsedMedicaments) {
+                for (Medicament medicament : medicaments) {
                     PatientMedicamentId patientMedicamentId = new PatientMedicamentId();
                     patientMedicamentId.setPatientId(patientId);
                     patientMedicamentId.setMedicamentId(medicament.getMedicamentId());
@@ -211,3 +202,4 @@ public class PatientController {
         return "patient used medicaments saved";
     }
 }
+

@@ -17,5 +17,5 @@ public class Medicament {
     private String medicamentName;
 
     @Column(name = "medicament_price")
-    private BigDecimal medicamentPrice;
+    private long medicamentPrice;
 }

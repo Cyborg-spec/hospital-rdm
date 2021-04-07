@@ -44,6 +44,12 @@ public class Patient {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "patient")
     private Set<PatientProblem>patientProblems;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "patient")
+    private Set<PatientMedicament>patientMedicaments;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "patient")
+    private Set<PatientApparatus>patientApparatuses;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
