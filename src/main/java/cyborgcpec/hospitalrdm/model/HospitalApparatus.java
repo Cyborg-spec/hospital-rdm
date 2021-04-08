@@ -15,9 +15,13 @@ public class HospitalApparatus {
     private HospitalApparatusId hospitalApparatusId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("hospitalId")
+    @JoinColumn(name = "hospital_id")
     private Hospital hospital;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("apparatusId")
+    @JoinColumn(name = "apparatus_id")
     private Apparatus apparatus;
 
     @Column(name = "quantity")

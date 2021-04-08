@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -23,6 +24,9 @@ public class Apparatus {
 
     @Column(name = "apparatus_price_per_hour")
     private BigDecimal apparatusPricePerHour;
+
+    @OneToMany(mappedBy = "apparatus")
+    private Set<HospitalApparatusBuyingHistory> hospitalApparatusBuyingHistories;
 
     @Override
     public boolean equals(Object o) {

@@ -18,5 +18,8 @@ public class Hospital {
     private String hospitalName;
 
     @OneToMany
-    private Set<Apparatus> apparatuses;
+    private Set<HospitalApparatus> apparatuses;
+
+    @OneToMany
+    private Set<HospitalApparatusBuyingHistory>hospitalApparatusBuyingHistories;
 }
