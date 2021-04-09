@@ -62,13 +62,12 @@ public class HospitalController {
         hospitalApparatusBuyingHistoryService.save(hospitalApparatusBuyingHistory);
         return "success";
     }
-    @GetMapping("/hospital/{id}/month-spent-money")
+    @GetMapping("/hospital/{id}/month-apparatus-spent-money")
     public long hospitalMonthSpentMoney(@PathVariable long id) throws HospitalNotFoundException {
         Hospital hospital=hospitalService.findByHospitalId(id);
         if(hospital!=null){
             List<HospitalCurrentMonthBoughtApparatusesDTO> hospitalCurrentMonthBoughtApparatuses=hospitalApparatusBuyingHistoryService.getHospitalCurrentMonthBoughtApparatuses(id);
-            long apparatusesPrice=hospitalCurrentMonthBoughtApparatuses.stream().mapToLong(hp ->hp.getApparatusPrice()*hp.getBoughtQuantity()).sum();
-            return apparatusesPrice;
+            return hospitalCurrentMonthBoughtApparatuses.stream().mapToLong(hp ->hp.getApparatusPrice()*hp.getBoughtQuantity()).sum();
         }else {
             throw new HospitalNotFoundException("Hospital not found");
         }
