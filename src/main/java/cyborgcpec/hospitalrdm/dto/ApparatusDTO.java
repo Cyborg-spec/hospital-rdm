@@ -13,5 +13,5 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ApparatusDTO {
     private String name;
-    private BigDecimal price;
+    private long price;
 }

@@ -1,7 +1,6 @@
 package cyborgcpec.hospitalrdm.service.impl;
 
 import cyborgcpec.hospitalrdm.model.Hospital;
-import cyborgcpec.hospitalrdm.model.HospitalApparatus;
 import cyborgcpec.hospitalrdm.repository.HospitalRepository;
 import cyborgcpec.hospitalrdm.service.HospitalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class HospitalServiceImpl implements HospitalService {
@@ -26,5 +24,11 @@ public class HospitalServiceImpl implements HospitalService {
     public Hospital findByName(String name) {
         return hospitalRepository.findByHospitalName(name);
     }
+
+    @Override
+    public Hospital findByHospitalId(long id) {
+        return hospitalRepository.findByHospitalId(id);
+    }
+
 
 }

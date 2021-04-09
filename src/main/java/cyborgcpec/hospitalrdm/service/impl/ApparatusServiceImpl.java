@@ -16,4 +16,5 @@ public class ApparatusServiceImpl implements ApparatusService {
     public Apparatus findByApparatusName(String apparatusName) {
         return apparatusRepository.findByApparatusName(apparatusName);
     }
+
 }

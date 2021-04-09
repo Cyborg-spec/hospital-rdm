@@ -20,7 +20,7 @@ public class Apparatus {
     private String apparatusName;
 
     @Column(name = "apparatus_price")
-    private BigDecimal apparatusPrice;
+    private long apparatusPrice;
 
     @Column(name = "apparatus_price_per_hour")
     private BigDecimal apparatusPricePerHour;
