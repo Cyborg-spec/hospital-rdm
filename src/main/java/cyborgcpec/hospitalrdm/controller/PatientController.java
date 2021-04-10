@@ -89,6 +89,7 @@ public class PatientController {
     @PostMapping("/patient/new-patient")
     public ResponsePatientDTO newPatient(@RequestBody NewPatientDTO newPatientDTO) throws DoctorNotFoundException {
         try {
+            //Todo create map with symptoms to find doctor by symptom
             DoctorType doctorType = DoctorType.valueOf(newPatientDTO.getIllType());
             Set<Doctor> doctors = doctorService.findByDoctorType(doctorType.ordinal());
 
