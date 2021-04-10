@@ -6,6 +6,6 @@ import cyborgcpec.hospitalrdm.model.DoctorType;
 import java.util.Set;
 
 public interface DoctorService {
-    Set<Doctor> findByDoctorType(DoctorType type);
+    Set<Doctor> findByDoctorType(long doctorTypeId);
     void save(Doctor doctor);
 }

@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponsePatientDTO {
-    private String firstName;
+public class FindByDoctorTypeResponseDTO {
+    private String name;
     private String lastName;
-    private DoctorResponseDTO doctor;
-    private String status;
+    private int age;
 }

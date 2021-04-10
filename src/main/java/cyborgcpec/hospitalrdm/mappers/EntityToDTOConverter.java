@@ -15,19 +15,51 @@ public class EntityToDTOConverter {
                 .firstName(patient.getFirstName())
                 .lastName(patient.getLastName())
                 .status(patient.getStatus().name())
-                .doctor(doctorToDoctorDTO(patient.getDoctor()))
+                .doctor(doctorToDoctorResponseDTO(patient.getDoctor()))
                 .build();
     }
 
-    public DoctorDTO doctorToDoctorDTO(Doctor doctor) {
-        return DoctorDTO
-                .builder()
+    public DoctorResponseDTO doctorToDoctorResponseDTO(Doctor doctor){
+        return DoctorResponseDTO.builder()
                 .firstName(doctor.getFirstName())
                 .lastName(doctor.getLastName())
                 .age(doctor.getAge())
                 .doctorType(doctor.getDoctorType()).build();
     }
 
+    public Set<ProblemDTO> problemToProblemDTO(Set<Problem>problems){
+        Set<ProblemDTO>result=new HashSet<>();
+        for(Problem problem:problems){
+            result.add(problemToProblemDTO(problem));
+        }
+        return result;
+    }
+
+    public NewDoctorDTO doctorToDoctorDTO(Doctor doctor) {
+        return NewDoctorDTO
+                .builder()
+                .firstName(doctor.getFirstName())
+                .hospitalName(doctor.getHospital().getHospitalName())
+                .lastName(doctor.getLastName())
+                .age(doctor.getAge())
+                .doctorType(doctor.getDoctorType()).build();
+    }
+
+    public FindByDoctorTypeResponseDTO doctorToFindByDoctorTypeDTO(Doctor doctor){
+        return FindByDoctorTypeResponseDTO.builder()
+                .name(doctor.getFirstName())
+                .lastName(doctor.getLastName())
+                .age(doctor.getAge())
+                .build();
+    }
+
+    public Set<FindByDoctorTypeResponseDTO> doctorToFindByDoctorTypeDTO(Set<Doctor>doctors){
+        Set<FindByDoctorTypeResponseDTO>result=new HashSet<>();
+        for(Doctor doctor:doctors){
+            result.add(doctorToFindByDoctorTypeDTO(doctor));
+        }
+        return result;
+    }
     public ApparatusDTO apparatusToApparatusDTO(Apparatus apparatus) {
         return ApparatusDTO.builder()
                 .name(apparatus.getApparatusName())

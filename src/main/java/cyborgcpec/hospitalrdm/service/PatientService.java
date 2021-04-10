@@ -2,6 +2,7 @@ package cyborgcpec.hospitalrdm.service;
 
 import cyborgcpec.hospitalrdm.model.Medicament;
 import cyborgcpec.hospitalrdm.model.Patient;
+import cyborgcpec.hospitalrdm.model.Problem;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;

@@ -1,18 +1,16 @@
 package cyborgcpec.hospitalrdm.mappers;
 
-import cyborgcpec.hospitalrdm.dto.DoctorDTO;
-import cyborgcpec.hospitalrdm.dto.NewPatientDTO;
+import cyborgcpec.hospitalrdm.dto.NewDoctorDTO;
 import cyborgcpec.hospitalrdm.model.Doctor;
-import cyborgcpec.hospitalrdm.model.Patient;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DTOToEntityConverter {
-   public Doctor doctorDTOToDoctor(DoctorDTO doctorDTO){
+   public Doctor doctorDTOToDoctor(NewDoctorDTO newDoctorDTO){
        return Doctor.builder()
-               .doctorType(doctorDTO.getDoctorType())
-               .age(doctorDTO.getAge())
-               .firstName(doctorDTO.getFirstName())
-               .lastName(doctorDTO.getLastName()).build();
+               .doctorType(newDoctorDTO.getDoctorType())
+               .age(newDoctorDTO.getAge())
+               .firstName(newDoctorDTO.getFirstName())
+               .lastName(newDoctorDTO.getLastName()).build();
    }
 }

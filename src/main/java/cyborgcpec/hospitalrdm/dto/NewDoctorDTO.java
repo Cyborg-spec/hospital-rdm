@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DoctorDTO {
+public class NewDoctorDTO {
     private String firstName;
     private String lastName;
     private int age;

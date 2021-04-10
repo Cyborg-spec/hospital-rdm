@@ -17,8 +17,8 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     @Transactional
-    public Set<Doctor> findByDoctorType(DoctorType type) {
-        return doctorRepository.findByDoctorType(type);
+    public Set<Doctor> findByDoctorType(long doctorTypeId) {
+        return doctorRepository.findByDoctorType(doctorTypeId);
     }
 
     @Override

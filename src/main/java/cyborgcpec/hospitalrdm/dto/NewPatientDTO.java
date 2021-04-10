@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class NewPatientDTO {
     private String firstName;
     private String lastName;
-    private String age;
+    private int age;
     private String illType;
 }

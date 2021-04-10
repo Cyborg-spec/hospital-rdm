@@ -1,7 +1,11 @@
 package cyborgcpec.hospitalrdm.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -11,6 +15,8 @@ import java.util.Set;
 @Table(name = "doctor")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Doctor {
     @Id
     @Column(name = "doctor_id")
@@ -37,11 +43,6 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor")
     private Set<Patient> patients;
-
-
-
-    @OneToOne(fetch = FetchType.LAZY,mappedBy = "doctor")
-    private Room room;
 
     @Override
     public boolean equals(Object o) {

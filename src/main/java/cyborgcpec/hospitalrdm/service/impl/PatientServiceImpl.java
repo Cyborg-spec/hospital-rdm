@@ -2,6 +2,7 @@ package cyborgcpec.hospitalrdm.service.impl;
 
 import cyborgcpec.hospitalrdm.model.Medicament;
 import cyborgcpec.hospitalrdm.model.Patient;
+import cyborgcpec.hospitalrdm.model.Problem;
 import cyborgcpec.hospitalrdm.repository.PatientRepository;
 import cyborgcpec.hospitalrdm.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,6 @@ public class PatientServiceImpl implements PatientService {
     public void delete(Patient patient) {
         patientRepository.delete(patient);
     }
+
 
 }

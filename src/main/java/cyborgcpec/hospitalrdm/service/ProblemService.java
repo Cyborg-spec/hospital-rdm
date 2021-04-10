@@ -9,4 +9,5 @@ import java.util.Set;
 public interface ProblemService {
     Problem findByProblemName(String problemName);
     Set<Problem> findByProblemNames(Set<String> problemNames);
+    Set<Problem> findByPatient(long id);
 }

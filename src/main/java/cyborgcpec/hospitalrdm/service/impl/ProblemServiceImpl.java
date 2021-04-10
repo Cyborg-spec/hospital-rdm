@@ -26,4 +26,9 @@ public class ProblemServiceImpl implements ProblemService{
     public Set<Problem> findByProblemNames(Set<String> problemNames) {
         return problemRepository.findByProblemNames(problemNames);
     }
+
+    @Override
+    public Set<Problem> findByPatient(long id) {
+        return problemRepository.findByPatient(id);
+    }
 }

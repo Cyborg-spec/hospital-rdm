@@ -47,6 +47,9 @@ public class PatientController {
     @Autowired
     private PatientBillHistoryService patientBillHistoryService;
 
+    @Autowired
+    private RoomService roomService;
+
     @GetMapping("/patient/{id}")
     public ResponsePatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient> patient = patientService.findById(id);
@@ -87,7 +90,7 @@ public class PatientController {
     public ResponsePatientDTO newPatient(@RequestBody NewPatientDTO newPatientDTO) throws DoctorNotFoundException {
         try {
             DoctorType doctorType = DoctorType.valueOf(newPatientDTO.getIllType());
-            Set<Doctor> doctors = doctorService.findByDoctorType(doctorType);
+            Set<Doctor> doctors = doctorService.findByDoctorType(doctorType.ordinal());
 
             if (!doctors.isEmpty()) {
                 Patient patient = new Patient();
@@ -104,7 +107,7 @@ public class PatientController {
                 }
 
                 patient.setDoctor(Objects.requireNonNullElseGet(availableDoctor, () -> doctors.stream().findAny().get()));
-                patient.setRoom(patient.getDoctor().getRoom());
+                patient.setRoom(roomService.findByDoctor(patient.getDoctor()));
                 patientService.save(patient);
 
                 return entityToDTOConverter.patientToPatientDTO(patient);
@@ -151,8 +154,8 @@ public class PatientController {
     public Set<ProblemDTO> patientProblems(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient> patient = patientService.findById(id);
         if (patient.isPresent()) {
-            Set<PatientProblem> patientProblems = patient.get().getPatientProblems();
-            return entityToDTOConverter.patientProblemToProblemDTO(patientProblems);
+            Set<Problem> patientProblems = problemService.findByPatient(id);
+            return entityToDTOConverter.problemToProblemDTO(patientProblems);
         } else {
             throw new PatientNotFoundException("Patient not found");
         }

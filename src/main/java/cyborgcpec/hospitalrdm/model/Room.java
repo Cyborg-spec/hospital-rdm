@@ -2,6 +2,9 @@ package cyborgcpec.hospitalrdm.model;
 
 
 import lombok.Data;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -14,15 +17,12 @@ public class Room {
     @Column(name = "room_id")
     private long roomId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
-
     @Enumerated
     @Column(name = "room_type_id")
     private RoomType roomType;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "room")
-    private Set<Patient> patient;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
 }

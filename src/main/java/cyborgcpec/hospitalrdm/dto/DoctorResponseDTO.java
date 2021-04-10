@@ -1,5 +1,6 @@
 package cyborgcpec.hospitalrdm.dto;
 
+import cyborgcpec.hospitalrdm.model.DoctorType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,9 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponsePatientDTO {
+public class DoctorResponseDTO {
     private String firstName;
     private String lastName;
-    private DoctorResponseDTO doctor;
-    private String status;
+    private int age;
+    private DoctorType doctorType;
 }
