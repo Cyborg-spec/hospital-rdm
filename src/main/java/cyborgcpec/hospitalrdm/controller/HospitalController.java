@@ -12,7 +12,6 @@ import cyborgcpec.hospitalrdm.service.ApparatusService;
 import cyborgcpec.hospitalrdm.service.HospitalApparatusBuyingHistoryService;
 import cyborgcpec.hospitalrdm.service.HospitalApparatusService;
 import cyborgcpec.hospitalrdm.service.HospitalService;
-import cyborgcpec.hospitalrdm.service.impl.HospitalApparatusBuyingHistoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

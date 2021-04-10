@@ -14,18 +14,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+
 public class HospitalApparatusBuyingHistoryImpl implements HospitalApparatusBuyingHistoryService {
     @Autowired
     private HospitalApparatusBuyingHistoryRepository hospitalApparatusBuyingHistoryRepository;
 
     @Value(value ="${spring.datasource.url}")
-    String url;
+    private String url;
 
     @Value(value = "${spring.datasource.username}")
-    String userName;
+    private String userName;
 
     @Value(value = "${spring.datasource.password}")
-    String password;
+    private String password;
 
     @Override
     public void save(HospitalApparatusBuyingHistory hospitalApparatusBuyingHistory) {
