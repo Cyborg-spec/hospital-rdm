@@ -211,6 +211,7 @@ public class PatientController {
            long billPrice=0;
            Set<Medicament>medicaments=medicamentService.findByPatientId(id);
            if(!medicaments.isEmpty()) {
+               //TODO another bill price counting system
                billPrice = medicaments.stream().mapToLong(Medicament::getMedicamentPrice).sum();
            }
            PatientBillHistory patientBillHistory=new PatientBillHistory();
