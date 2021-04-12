@@ -61,7 +61,7 @@ public class HospitalController {
         hospitalApparatusBuyingHistoryService.save(hospitalApparatusBuyingHistory);
         return "success";
     }
-    @GetMapping("/hospital/{id}/apparatus-spent-money")
+    @GetMapping("/hospital/{id}/this-month-apparatus-spent-money")
     public long hospitalMonthSpentMoney(@PathVariable long id) throws HospitalNotFoundException {
         Hospital hospital=hospitalService.findByHospitalId(id);
         if(hospital!=null){
