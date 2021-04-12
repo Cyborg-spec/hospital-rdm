@@ -92,4 +92,21 @@ public class EntityToDTOConverter {
                 .problemName(problem.getProblemName()).build();
     }
 
+    public HospitalApparatusResponseDTO hospitalApparatusToHospitalApparatusResponseDTO(HospitalApparatus hospitalApparatus){
+        return HospitalApparatusResponseDTO
+                .builder()
+                .name(hospitalApparatus.getApparatus().getApparatusName())
+                .quantity(hospitalApparatus.getQuantity())
+                .price(hospitalApparatus.getApparatus().getApparatusPrice())
+                .build();
+    }
+
+    public Set<HospitalApparatusResponseDTO> hospitalApparatusToHospitalApparatusResponseDTO(Set<HospitalApparatus> hospitalApparatuses) {
+        Set<HospitalApparatusResponseDTO> result = new HashSet<>();
+        for (HospitalApparatus hospitalApparatus : hospitalApparatuses) {
+            result.add(hospitalApparatusToHospitalApparatusResponseDTO(hospitalApparatus));
+        }
+        return result;
+    }
+
 }

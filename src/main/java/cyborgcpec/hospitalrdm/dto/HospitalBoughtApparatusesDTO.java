@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-public class HospitalCurrentMonthBoughtApparatusesDTO {
+public class HospitalBoughtApparatusesDTO {
     private long apparatusPrice;
     private long boughtQuantity;
 }
