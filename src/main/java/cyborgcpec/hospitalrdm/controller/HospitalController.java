@@ -70,7 +70,7 @@ public class HospitalController {
     }
 
     @GetMapping("/hospital/{id}/this-month-apparatus-spent-money")
-    public long getHospitalCurrentMonthBoughtApparatuses(@PathVariable long id) throws HospitalNotFoundException {
+    public long getHospitalCurrentMonthBoughtApparatuses(@PathVariable long id) throws HospitalNotFoundException{
         Hospital hospital = hospitalService.findByHospitalId(id);
         if (hospital != null) {
             List<HospitalBoughtApparatusesDTO> hospitalBoughtApparatusesDTO = hospitalApparatusBuyingHistoryService.getHospitalCurrentMonthBoughtApparatuses(id);

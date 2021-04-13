@@ -1,5 +1,6 @@
 package cyborgcpec.hospitalrdm.service.impl;
 
+import cyborgcpec.hospitalrdm.dto.PatientUsedMedicamentDTO;
 import cyborgcpec.hospitalrdm.model.Medicament;
 import cyborgcpec.hospitalrdm.repository.MedicamentRepository;
 import cyborgcpec.hospitalrdm.service.MedicamentService;
@@ -31,4 +32,6 @@ public class MedicamentServiceImpl implements MedicamentService {
     public Set<Medicament> findByPatientId(long patientId) {
         return medicamentRepository.findByPatientId(patientId);
     }
+
+
 }

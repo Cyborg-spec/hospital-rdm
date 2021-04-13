@@ -1,5 +1,6 @@
 package cyborgcpec.hospitalrdm.service;
 
+import cyborgcpec.hospitalrdm.dto.PatientUsedMedicamentDTO;
 import cyborgcpec.hospitalrdm.model.Medicament;
 
 

@@ -10,6 +10,7 @@ import cyborgcpec.hospitalrdm.model.*;
 import cyborgcpec.hospitalrdm.model.composite_keys.PatientMedicamentId;
 import cyborgcpec.hospitalrdm.model.composite_keys.PatientProblemId;
 import cyborgcpec.hospitalrdm.service.*;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +51,9 @@ public class PatientController {
     @Autowired
     private RoomService roomService;
 
+    @Autowired
+    private ApparatusService apparatusService;
+
     @GetMapping("/patient/{id}")
     public ResponsePatientDTO getPatientById(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient> patient = patientService.findById(id);
@@ -64,11 +68,7 @@ public class PatientController {
     public Set<ApparatusDTO> getPatientApparatuses(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient> patient = patientService.findById(id);
         if (patient.isPresent()) {
-            Set<PatientApparatus> patientApparatuses = patientApparatusService.findByPatient(patient.get());
-            Set<Apparatus> apparatuses = new HashSet<>();
-            for (PatientApparatus patientApparatus : patientApparatuses) {
-                apparatuses.add(patientApparatus.getApparatus());
-            }
+            Set<Apparatus>apparatuses=apparatusService.findByPatientId(id);
             return entityToDTOConverter.apparatusToApparatusDTO(apparatuses);
         } else {
             throw new PatientNotFoundException("Patient not found");
@@ -152,7 +152,7 @@ public class PatientController {
     }
 
     @GetMapping("/patient/{id}/problems")
-    public Set<ProblemDTO> patientProblems(@PathVariable long id) throws PatientNotFoundException {
+    public Set<ProblemDTO> getPatientProblems(@PathVariable long id) throws PatientNotFoundException {
         Optional<Patient> patient = patientService.findById(id);
         if (patient.isPresent()) {
             Set<Problem> patientProblems = problemService.findByPatient(id);
@@ -223,6 +223,16 @@ public class PatientController {
            return "Patient deleted successfully";
         }else {
             throw new PatientNotFoundException("Patient not found");
+        }
+    }
+    @GetMapping("/patient/{id}/used-medicament")
+    public List<PatientUsedMedicamentDTO> getPatientUsedMedicaments(@PathVariable long id) throws PatientNotFoundException {
+       Optional<Patient> patient=patientService.findById(id);
+        if(patient.isPresent()){
+         List<PatientUsedMedicamentDTO>patientUsedMedicaments=patientMedicamentService.getPatientUsedMedicamentByPatientId(id);
+         return patientUsedMedicaments;
+        }else {
+            throw new PatientNotFoundException("patient not found");
         }
     }
 }

@@ -12,7 +12,7 @@ public interface MedicamentRepository extends JpaRepository<Medicament,Long> {
     Medicament findByMedicamentName(String medicamentName);
     @Query(value = "select * from medicament where medicament_name in :medicamentNames",nativeQuery = true)
     Set<Medicament> findByMedicamentNames(@Param("medicamentNames") Set<String>medicamentNames);
-    @Query(value = "select * from medicament m left join patient_medicament pm on m.medicament_id = pm.medicament_id and pm.patient_id=:patientId"
+    @Query(value = "select * from patient_medicament pm left join medicament m on pm.medicament_id = m.medicament_id and pm.patient_id=:patientId"
             ,nativeQuery = true)
     Set<Medicament> findByPatientId(@Param("patientId")long patientId);
 }
