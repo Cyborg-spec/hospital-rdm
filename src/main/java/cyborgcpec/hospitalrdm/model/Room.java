@@ -17,6 +17,9 @@ public class Room {
     @Column(name = "room_id")
     private long roomId;
 
+    @OneToMany
+    private Set<Patient>patients;
+
     @Enumerated
     @Column(name = "room_type_id")
     private RoomType roomType;

@@ -19,6 +19,14 @@ public class EntityToDTOConverter {
                 .build();
     }
 
+    public Set<ResponsePatientDTO> patientToPatientDTO(Set<Patient>patients){
+        Set<ResponsePatientDTO>result=new HashSet<>();
+        for(Patient patient:patients){
+            result.add(patientToPatientDTO(patient));
+        }
+        return result;
+    }
+
     public DoctorResponseDTO doctorToDoctorResponseDTO(Doctor doctor){
         return DoctorResponseDTO.builder()
                 .firstName(doctor.getFirstName())

@@ -3,6 +3,7 @@ package cyborgcpec.hospitalrdm.service;
 import cyborgcpec.hospitalrdm.model.Medicament;
 import cyborgcpec.hospitalrdm.model.Patient;
 import cyborgcpec.hospitalrdm.model.Problem;
+import cyborgcpec.hospitalrdm.model.Room;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
@@ -13,5 +14,5 @@ public interface PatientService {
     Patient findByFirstNameAndLastName(String firstName,String lastName);
     void save(Patient patient);
     void delete(Patient patient);
-
+    Set<Patient> findByRoom(Room room);
 }

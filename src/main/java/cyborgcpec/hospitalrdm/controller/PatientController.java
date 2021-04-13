@@ -106,11 +106,10 @@ public class PatientController {
                         break;
                     }
                 }
-
                 patient.setDoctor(Objects.requireNonNullElseGet(availableDoctor, () -> doctors.stream().findAny().get()));
+                //TODO change the logic of finding room
                 patient.setRoom(roomService.findByDoctor(patient.getDoctor()));
                 patientService.save(patient);
-
                 return entityToDTOConverter.patientToPatientDTO(patient);
             } else {
                 throw new DoctorNotFoundException("Doctor for this patient not found");
@@ -120,7 +119,7 @@ public class PatientController {
         }
     }
 
-    @PostMapping("/patient/new-problems")
+    @PostMapping("/patient/new-problem")
     public ResponseEntity<Object> patientNewProblem(@RequestBody PatientNewProblemDTO patientNewProblemDTO) throws ProblemTypeNotFoundException, PatientNotFoundException {
         //Todo there are can be several patients with this name and lastname
         Patient patient = patientService.findByFirstNameAndLastName(patientNewProblemDTO.getFirstName(), patientNewProblemDTO.getLastName());
