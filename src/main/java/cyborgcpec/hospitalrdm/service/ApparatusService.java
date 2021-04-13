@@ -8,4 +8,5 @@ import java.util.Set;
 public interface ApparatusService {
     Apparatus findByApparatusName(String apparatusName);
     Set<Apparatus> findByPatientId(long patientId);
+    void save(Apparatus apparatus);
 }

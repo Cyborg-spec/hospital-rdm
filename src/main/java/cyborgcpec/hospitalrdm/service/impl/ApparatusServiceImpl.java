@@ -24,4 +24,9 @@ public class ApparatusServiceImpl implements ApparatusService {
         return apparatusRepository.findByPatientId(patientId);
     }
 
+    @Override
+    public void save(Apparatus apparatus) {
+        apparatusRepository.save(apparatus);
+    }
+
 }

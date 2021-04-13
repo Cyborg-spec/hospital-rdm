@@ -14,6 +14,8 @@ import java.util.Set;
 public class Apparatus {
     @Id
     @Column(name = "apparatus_id")
+    @GeneratedValue(generator = "apparatus_id_gen")
+    @SequenceGenerator(name = "apparatus_id_gen",sequenceName = "apparatus_id_seq",allocationSize = 1)
     private long apparatusId;
 
     @Column(name = "apparatus_name")
